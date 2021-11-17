@@ -41,7 +41,8 @@ class DotnetCoreSdk(Package):
             default=False,
             description='allow collection of telemetry data')
 
-    def setup_environment(self, spack_env, run_env):
+    # Packages that use dotnet-core-sdk will use these variables.
+    def setup_dependent_environment(self, spack_env, run_env, dependent_spec):
         # Warning, these environment variables are not used outside spack!
         if '-telemetry' in self.spec:
             spack_env.set('DOTNET_CLI_TELEMETRY_OPTOUT', 1)
