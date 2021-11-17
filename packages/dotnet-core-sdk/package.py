@@ -42,8 +42,12 @@ class DotnetCoreSdk(Package):
             description='allow collection of telemetry data')
 
     def setup_environment(self, spack_env, run_env):
+        # Warning, these environment variables are not used outside spack!
         if '-telemetry' in self.spec:
             spack_env.set('DOTNET_CLI_TELEMETRY_OPTOUT', 1)
+        # Avoid "Couldn't find a valid ICU package installed on the system."
+        # else, we have to find a way to add a dependency to icu4c package.
+        spack_env.set('DOTNET_SYSTEM_GLOBALIZATION_INVARIANT', 1)
 
     def install(self, spec, prefix):
         mkdirp('bin')
