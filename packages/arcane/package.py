@@ -127,8 +127,6 @@ class Arcane(CMakePackage):
     depends_on("hwloc", when="+hwloc")
     depends_on("papi", when="+papi")
 
-    depends_on("hypre")  # For Aleph
-
     conflicts("+parmetis", when="~mpi")
     conflicts("+zoltan", when="~mpi")
     conflicts("+scotch", when="~mpi")
