@@ -61,11 +61,16 @@ class Arccore(CMakePackage):
         sha256='d0af126861343305011f643f1fcf6311ba1f822ff4d5edb8956b55cb004341a2'
     )  #noqa: E501
 
+    version(
+        '2.0.6.0',
+        sha256='9780d48833b0fb8af9744903192ecd828eb94ea03171c484318d35a32055720e'
+    )  #noqa: E501
+
     variant('mpi', default=True, description='Use MPI')
 
     # Arccon must be exported to client
     depends_on("arccon", type=("build", "link"))
-    depends_on("cmake@3.13:", type="build")
+    depends_on("cmake@3.18:", type="build")
     depends_on('glib')
     depends_on('mpi', when='+mpi')
 

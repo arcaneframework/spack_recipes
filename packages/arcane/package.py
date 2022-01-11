@@ -91,7 +91,7 @@ class Arcane(CMakePackage):
     depends_on("arccore@2.0.3",
                type=("build", "link", "run"),
                when="@3.0.5:3.1")
-    depends_on("arccore@2.0.4:", type=("build", "link", "run"), when="@3.2:")
+    depends_on("arccore@2.0.6:", type=("build", "link", "run"), when="@3.2:")
     depends_on("arccore build_mode=Debug",
                type=("build", "link", "run"),
                when="build_type='Debug'")
