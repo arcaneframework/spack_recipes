@@ -71,8 +71,20 @@ class Alien(CMakePackage):
     variant('hypre', description='Enable hypre backend', default=False)
     variant('petsc', description='Enable PETSc backend', default=False)
 
+    ginkgo_backends = ('omp', 'ref', 'cuda', 'hip', 'dpcpp')
+    variant('ginkgo',
+            description='Enable Ginkgo specific backend',
+            default='none',
+            values=ginkgo_backends + ('none', ),
+            multi=False)
+
     depends_on('hypre +mpi', when='+hypre')
     depends_on('petsc +mpi', when='+petsc')
+
+    depends_on('ginkgo +cuda', when='ginkgo=cuda')
+    depends_on('ginkgo +openmp', when='ginkgo=omp')
+    depends_on('ginkgo +rocm', when='ginkgo=hip')
+    depends_on('ginkgo', when='ginkgo=ref')
 
     depends_on("cmake", type="build")
 
@@ -88,7 +100,7 @@ class Alien(CMakePackage):
     depends_on('hdf5', when='+hdf5')
 
     def cmake_args(self):
-        return [
+        options = [
             # Do not use any default options for Alien
             self.define('ALIEN_DEFAULT_OPTIONS', False),
             self.define_from_variant('ALIEN_USE_HDF5', 'hdf5'),
@@ -99,3 +111,14 @@ class Alien(CMakePackage):
             self.define_from_variant('ALIEN_PLUGIN_PETSC', 'petsc'),
             self.define('BUILD_SHARED_LIBS', True),
         ]
+        if 'ginkgo=none' in self.spec:
+            options.append(self.define('ALIEN_PLUGIN_GINKGO', False))
+        else:
+            options.append(self.define('ALIEN_PLUGIN_GINKGO', True))
+            for b in self.ginkgo_backends:
+                if 'ginkgo={}'.format(b) in self.spec:
+                    options.append(
+                        self.define('ALIEN_PLUGIN_GINKGO_{}'.format(b.upper()),
+                                    True))
+
+        return options
