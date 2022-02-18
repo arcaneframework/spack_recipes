@@ -26,7 +26,7 @@ from spack import *
 import os
 
 
-class Arcane(CMakePackage):
+class Arcane(CMakePackage, CudaPackage):
     """Arcane Framework"""
 
     homepage = "https://arcaneframework.github.io"
@@ -55,6 +55,8 @@ class Arcane(CMakePackage):
         '3.4.5.0',
         sha256='d2e2834a11a915a4c8a0a8993bd368ecefb4033f740168e7b7449dc17bca0860'
     )  # noqa: E501
+
+    variant('cuda', default=False, description='Build Cuda offloading')
 
     variant("valgrind", default=False, description="run tests with valgrind")
     variant("mpi", default=True, description="Use MPI")
@@ -143,6 +145,8 @@ class Arcane(CMakePackage):
     variant("hypre", default=False, description="Hypre linear solver")
     depends_on("hypre", when="+hypre")
 
+    depends_on('cuda', when='+cuda')
+
     def build_required(self):
         to_cmake = {
             'mpi': 'MPI',
@@ -185,6 +189,7 @@ class Arcane(CMakePackage):
             self.define("BUILD_SHARED_LIBS", True),
             self.define("ARCANE_BUILD_WITH_SPACK", True),
             self.define_from_variant("ARCANE_BUILD_MODE", "build_type"),
+            self.define_from_variant('ARCANE_WANT_CUDA', 'cuda')
         ]
         if "mpi" in self.spec:
             args.append("-DARCANE_WANT_NOMPI=NO")
