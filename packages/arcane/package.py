@@ -26,7 +26,7 @@ from spack import *
 import os
 
 
-class Arcane(CMakePackage, CudaPackage):
+class Arcane(CMakePackage, CudaPackage, ROCmPackage):
     """Arcane Framework"""
 
     homepage = "https://arcaneframework.github.io"
@@ -57,6 +57,7 @@ class Arcane(CMakePackage, CudaPackage):
     )  # noqa: E501
 
     variant('cuda', default=False, description='Build Cuda offloading')
+    variant('hip', default=False, description='Build HIP offloading')
 
     variant("valgrind", default=False, description="run tests with valgrind")
     variant("mpi", default=True, description="Use MPI")
@@ -72,7 +73,6 @@ class Arcane(CMakePackage, CudaPackage):
     variant("vtk", default=False, description="Use VTK XDMF")
     variant("osmesa", default=False, description="Use Mesa rendering")
     variant("iceT", default=False, description="Use IceT")
-    variant("cuda", default=False, description="Enable Cuda")
 
     variant("parmetis", default=False, description="Use ParMetis partitioner")
     variant("scotch", default=False, description="Use (PT-)Scotch partitioner")
@@ -90,7 +90,8 @@ class Arcane(CMakePackage, CudaPackage):
             description="Use embedding with coreclr")
     variant("monoembed", default=True, description="Use embedding with mono")
 
-    depends_on("cmake@3.13:", type="build")
+    depends_on("cmake@3.18:", type="build")
+
     depends_on("arccon@1.1:", type=("build"), when="@:3.0.4")
     depends_on("arccon@1.2:", type=("build"), when="@3.0.5.0")
     depends_on("axlstar@2.0:", type=("build"))
@@ -121,7 +122,6 @@ class Arcane(CMakePackage, CudaPackage):
     depends_on("vtk", when="+vtk")
     depends_on("mesa", when="+osmesa")
     depends_on("icet", when="+iceT")
-    depends_on("cuda", when="+cuda")
     depends_on("med", when="+med")
     depends_on("otf2", when="+otf2")
 
@@ -146,6 +146,9 @@ class Arcane(CMakePackage, CudaPackage):
     depends_on("hypre", when="+hypre")
 
     depends_on('cuda', when='+cuda')
+    depends_on('hip', when='+hip')
+    depends_on('cmake@3.21:', when='+hip')
+    conflicts('+cuda', when='+hip')
 
     def build_required(self):
         to_cmake = {
@@ -189,7 +192,6 @@ class Arcane(CMakePackage, CudaPackage):
             self.define("BUILD_SHARED_LIBS", True),
             self.define("ARCANE_BUILD_WITH_SPACK", True),
             self.define_from_variant("ARCANE_BUILD_MODE", "build_type"),
-            self.define_from_variant('ARCANE_WANT_CUDA', 'cuda')
         ]
         if "mpi" in self.spec:
             args.append("-DARCANE_WANT_NOMPI=NO")
@@ -209,5 +211,10 @@ class Arcane(CMakePackage, CudaPackage):
 
         args.append(
             self.define('ARCANE_REQUIRED_PACKAGE_LIST', self.build_required()))
+
+        if '+hip' in self.spec:
+            args.append(self.define('ARCANE_ACCELERATOR_MODE', 'ROCMHIP'))
+        elif '+cuda' in self.spec:
+            args.append(self.define('ARCANE_ACCELERATOR_MODE', 'CUDANVCC'))
 
         return args
