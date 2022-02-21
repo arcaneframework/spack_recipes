@@ -56,9 +56,6 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
         sha256='d2e2834a11a915a4c8a0a8993bd368ecefb4033f740168e7b7449dc17bca0860'
     )  # noqa: E501
 
-    variant('cuda', default=False, description='Build Cuda offloading')
-    variant('hip', default=False, description='Build HIP offloading')
-
     variant("valgrind", default=False, description="run tests with valgrind")
     variant("mpi", default=True, description="Use MPI")
     variant("hdf5", default=False, description="HDF5 IO")
@@ -146,9 +143,9 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
     depends_on("hypre", when="+hypre")
 
     depends_on('cuda', when='+cuda')
-    depends_on('hip', when='+hip')
-    depends_on('cmake@3.21:', when='+hip')
-    conflicts('+cuda', when='+hip')
+    depends_on('hip', when='+rocm')
+    depends_on('cmake@3.21:', when='+rocm')
+    conflicts('+cuda', when='+rocm')
 
     def build_required(self):
         to_cmake = {
@@ -164,7 +161,7 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
             'osmesa': 'OSMesa',
             'iceT': 'IceT',
             'cuda': 'CUDAToolkit',
-            'hip': 'Hip',
+            'rocm': 'Hip',
             'parmetis': 'Parmetis',
             'scotch': 'PTScotch',
             'zoltan': 'Zoltan',
@@ -213,9 +210,12 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
         args.append(
             self.define('ARCANE_REQUIRED_PACKAGE_LIST', self.build_required()))
 
-        if '+hip' in self.spec:
+        if '+rocm' in self.spec:
             args.append(self.define('ARCANE_ACCELERATOR_MODE', 'ROCMHIP'))
         elif '+cuda' in self.spec:
             args.append(self.define('ARCANE_ACCELERATOR_MODE', 'CUDANVCC'))
+            cuda_arch = self.spec.variants['cuda_arch'].value[0]
+            if cuda_arch != 'none':
+                args.append(self.define('CMAKE_CUDA_ARCHITECTURES', ))
 
         return args
