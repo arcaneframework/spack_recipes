@@ -164,6 +164,7 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
             'osmesa': 'OSMesa',
             'iceT': 'IceT',
             'cuda': 'CUDAToolkit',
+            'hip': 'Hip',
             'parmetis': 'Parmetis',
             'scotch': 'PTScotch',
             'zoltan': 'Zoltan',
