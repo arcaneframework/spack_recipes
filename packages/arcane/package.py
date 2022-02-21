@@ -51,6 +51,11 @@ class Arcane(CMakePackage):
         sha256='1b2d9bbea2bbae1a9cbafd5c127f3865871393dbac6a3f6e22b1b8764e435649'
     )  #noqa: E501
 
+    version(
+        '3.4.5.0',
+        sha256='d2e2834a11a915a4c8a0a8993bd368ecefb4033f740168e7b7449dc17bca0860'
+    )  # noqa: E501
+
     variant("valgrind", default=False, description="run tests with valgrind")
     variant("mpi", default=True, description="Use MPI")
     variant("hdf5", default=False, description="HDF5 IO")
