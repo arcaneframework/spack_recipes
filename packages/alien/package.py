@@ -63,6 +63,11 @@ class Alien(CMakePackage):
         sha256='3246becbc665106f0efdabd0ed836421d04133a703affda64c64ad94f36eea57'
     )  # noqa: E501
 
+    version(
+        '1.1.3',
+        sha256='36b5aeabc5c1f2a80d7f4943796c179b88b54164e3eada6113027fbf35936f37'
+    )  # noqa: E501
+
     variant('hdf5', description='hdf5 export for Alien', default=False)
     variant('xml', description='xml export for Alien', default=True)
     variant('move', description='Move Semantic api for Alien', default=True)
