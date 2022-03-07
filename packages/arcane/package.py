@@ -216,6 +216,6 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
             args.append(self.define('ARCANE_ACCELERATOR_MODE', 'CUDANVCC'))
             cuda_arch = self.spec.variants['cuda_arch'].value[0]
             if cuda_arch != 'none':
-                args.append(self.define('CMAKE_CUDA_ARCHITECTURES', ))
+                args.append(self.define('CMAKE_CUDA_ARCHITECTURES', cuda_arch))
 
         return args
