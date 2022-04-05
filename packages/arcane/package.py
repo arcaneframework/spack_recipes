@@ -131,14 +131,13 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
     depends_on("hwloc", when="+hwloc")
     depends_on("papi", when="+papi")
 
-    depends_on("hypre")  # For Aleph
-
     conflicts("+parmetis", when="~mpi")
     conflicts("+zoltan", when="~mpi")
     conflicts("+scotch", when="~mpi")
     conflicts("+med", when="~mpi")
 
     # To be moved
+    # For Aleph
     variant("hypre", default=False, description="Hypre linear solver")
     depends_on("hypre", when="+hypre")
 
