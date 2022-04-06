@@ -211,13 +211,16 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
 
         if '+rocm' in self.spec:
             args.append(self.define('ARCANE_ACCELERATOR_MODE', 'ROCMHIP'))
-            amd_arch = self.spec.variants['amdgpu_target'].value[0]
-            if 'none' not in amd_arch:
-                args.append(self.define('CMAKE_HIP_ARCHITECTURES', amd_arch))
+            amd_arch = self.spec.variants['amdgpu_target'].value
+            if amd_arch:
+                args.append(
+                    self.define('CMAKE_HIP_ARCHITECTURES', ";".join(amd_arch)))
         elif '+cuda' in self.spec:
             args.append(self.define('ARCANE_ACCELERATOR_MODE', 'CUDANVCC'))
-            cuda_arch = self.spec.variants['cuda_arch'].value[0]
-            if 'none' not in cuda_arch:
-                args.append(self.define('CMAKE_CUDA_ARCHITECTURES', cuda_arch))
+            cuda_arch = self.spec.variants['cuda_arch'].value
+            if cuda_arch:
+                args.append(
+                    self.define('CMAKE_CUDA_ARCHITECTURES',
+                                ";".join(cuda_arch)))
 
         return args
