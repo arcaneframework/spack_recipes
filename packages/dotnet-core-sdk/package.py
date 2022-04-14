@@ -28,6 +28,16 @@ _versions = {
         ('edd79ebad3327032ea0aaa8504c14e3270050bb459b098202676776b41a3a1d282aaefd1e5e8aa09ef7f7cf7c4601c4783a57112ff6e3d427507e8eec2bfb748',
          'https://download.visualstudio.microsoft.com/download/pr/e7acb87d-ab08-4620-9050-b3e80f688d36/e93bbadc19b12f81e3a6761719f28b47/dotnet-sdk-6.0.102-linux-x64.tar.gz'
          )
+    },
+    '6.0.104': {
+        'Linux-aarch64':
+        ('91fa1114a656173a988aafd65c657c9498c34ef9145eac60b6feacc8a08f68538defeb38af472e2626ffd0669eb62140fdb1408771db0e2b63501baf2a646f29',
+         'https://download.visualstudio.microsoft.com/download/pr/e61cf583-1e44-4ac5-a04f-5b59fda42ea7/df3853bb318af131f7eafa61f2b839b8/dotnet-sdk-6.0.104-linux-arm64.tar.gz'
+         ),
+        'Linux-x86_64':
+        ('126f22f48cdbbf59ff21ac1a6cd354b4dab500cef372c42a7e4a9546c755ab6d1670a096be3c66f5fe80b6e2a5c31b16901a2c3ccbe928b501e25bb86339ec6c',
+         'https://download.visualstudio.microsoft.com/download/pr/ecbf40a3-ec68-4d08-9240-17b8530731bf/56aed66e46a72269c29bc3cc0f94ffc8/dotnet-sdk-6.0.104-linux-x64.tar.gz'
+         )
     }
 }
 
@@ -58,6 +68,7 @@ class DotnetCoreSdk(Package):
             spack_env.set('DOTNET_CLI_TELEMETRY_OPTOUT', 1)
         # Avoid "Couldn't find a valid ICU package installed on the system."
         # else, we have to find a way to add a dependency to icu4c package.
+        # TODO: Do it only on aarch64 platform.
         spack_env.set('DOTNET_SYSTEM_GLOBALIZATION_INVARIANT', 1)
 
     def install(self, spec, prefix):
