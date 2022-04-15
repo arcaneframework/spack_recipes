@@ -71,6 +71,11 @@ class Arccore(CMakePackage):
         sha256='5ed26a0d129234ba26140b025e2c63683d6c310f13fd400b046ab3d2318b4f72'
     )  #noqa: E501
 
+    version(
+        '2.0.9.0',
+        sha256='9a0918c9c4c448f56498b45d7369499baa9073dec32f472d9c744626fb847afb'
+    )  # noqa: E501
+
     variant('mpi', default=True, description='Use MPI')
 
     # Arccon must be exported to client
