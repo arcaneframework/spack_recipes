@@ -193,6 +193,7 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
         args = [
             self.define("BUILD_SHARED_LIBS", True),
             self.define("ARCANE_BUILD_WITH_SPACK", True),
+            self.define("ARCANE_NO_DEFAULT_PACKAGE", True),
             self.define_from_variant("ARCANE_BUILD_MODE", "build_type"),
         ]
         if "mpi" in self.spec:
