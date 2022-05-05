@@ -129,7 +129,7 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
 
     depends_on("parmetis@4:", when="+parmetis")
     depends_on("scotch +mpi -metis +int64", when="+scotch")
-    depends_on("zoltan +mpi -parmetis -fortran", when="+zoltan")
+    depends_on("zoltan +mpi -parmetis -fortran", when="+zoltan~trilinos")
 
     depends_on("libunwind", when="+libunwind")
     depends_on("udunits", when="+udunits")
@@ -145,6 +145,9 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
     # For Aleph
     variant("hypre", default=False, description="Hypre linear solver")
     depends_on("hypre", when="+hypre")
+    variant("trilinos", default=False, description="Trilinos linear solver")
+    depends_on("trilinos +aztec+ml+ifpack", when="+trilinos")
+    depends_on("trilinos +zoltan", when="+zoltan+trilinos")
 
     depends_on('cuda', when='+cuda')
     depends_on('hip', when='+rocm')
@@ -176,6 +179,7 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
             'papi': 'Papi',
             'sloop': 'Sloop',
             'hypre': 'Hypre',
+            'trilinos': 'Trilinos',
             'lima': 'Lima',
             'wrapper': 'SWIG',
             'monoembed': 'MonoEmbed',
