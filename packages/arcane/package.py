@@ -143,11 +143,19 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
 
     # To be moved
     # For Aleph
-    variant("hypre", default=False, description="Hypre linear solver")
+    variant("hypre",
+            default=False,
+            description="hypre linear solver (for Aleph)")
     depends_on("hypre", when="+hypre")
-    variant("trilinos", default=False, description="Trilinos linear solver")
+    variant("trilinos",
+            default=False,
+            description="Trilinos linear solver (for Aleph)")
     depends_on("trilinos +aztec+ml+ifpack", when="+trilinos")
     depends_on("trilinos +zoltan", when="+zoltan+trilinos")
+    variant("petsc",
+            default=False,
+            description="PETSc linear solver (for Aleph)")
+    depends_on("petsc +mpi", when="+petsc")
 
     depends_on('cuda', when='+cuda')
     depends_on('hip', when='+rocm')
