@@ -188,7 +188,6 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
         )
 
     def cmake_args(self):
-        spec = self.spec
         args = [
             self.define("BUILD_SHARED_LIBS", True),
             self.define("ARCANE_BUILD_WITH_SPACK", True),
