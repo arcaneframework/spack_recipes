@@ -34,9 +34,9 @@ class Arcdependencies(CMakePackage):
     url = "https://github.com/arcaneframework/dependencies/archive/refs/tags/v1.2.0.tar.gz"
 
     version(
-        '1.2.0',
-        sha256='86a95610d38e440ecffc18de4c7e38073b517446286acc0ecc62639898c23a1d'
-    )  # noqa: E501
+        "1.2.0",
+        sha256="86a95610d38e440ecffc18de4c7e38073b517446286acc0ecc62639898c23a1d",
+    )
 
     version("main", branch="main")
 

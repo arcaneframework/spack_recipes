@@ -33,25 +33,21 @@ class Arccon(CMakePackage):
     git = "https://github.com/arcaneframework/framework.git"
 
     version(
-        '1.0.0',
-        sha256=
-        "1f276325251c407c141cb6b5e223f06ac7ef41f128714d5d98d27b5d41b0dbcc",
-        url=
-        "https://gitlab.com/cea-ifpen/arccon/-/archive/v1.0.0/arccon-v1.0.0.tar.bz2"
-    )  # noqa: E501
+        "1.0.0",
+        sha256="1f276325251c407c141cb6b5e223f06ac7ef41f128714d5d98d27b5d41b0dbcc",
+        url="https://gitlab.com/cea-ifpen/arccon/-/archive/v1.0.0/arccon-v1.0.0.tar.bz2",
+    )
     version(
-        '1.1.0',
-        sha256=
-        "34434f8fdd21dc72668bdb02c77a917357d467c0646b9338199492d02c3681f5",
-        url=
-        "https://gitlab.com/cea-ifpen/arccon/-/archive/v1.1.0/arccon-v1.1.0.tar.bz2"
-    )  # noqa: E501
+        "1.1.0",
+        sha256="34434f8fdd21dc72668bdb02c77a917357d467c0646b9338199492d02c3681f5",
+        url="https://gitlab.com/cea-ifpen/arccon/-/archive/v1.1.0/arccon-v1.1.0.tar.bz2",
+    )
     version(
-        '1.2.0',
-        sha256='bdea35e4c559c85cca7bd82d1a9d8859c465832c645baa127595952131933002'
-    )  # noqa: E501
+        "1.2.0",
+        sha256="bdea35e4c559c85cca7bd82d1a9d8859c465832c645baa127595952131933002",
+    )
 
-    version('main', branch='main')
+    version("main", branch="main")
 
     # FIXME: Add dependencies if required.
-    depends_on('cmake@3.11:', type=("build", "link"))
+    depends_on("cmake@3.11:", type=("build", "link"))

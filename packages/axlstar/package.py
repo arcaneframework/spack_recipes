@@ -36,21 +36,21 @@ class Axlstar(CMakePackage):
     version("main", branch="main")
 
     version(
-        '2.0.0.0',
-        sha256='0f41c6b3af8344ce1fec030069559448f8267f87a4b05f9b8c247a8c27d49e42'
-    )  # noqa: E501
+        "2.0.0.0",
+        sha256="0f41c6b3af8344ce1fec030069559448f8267f87a4b05f9b8c247a8c27d49e42",
+    )
 
     version(
-        '2.0.1.0',
-        sha256='db50f561f54840faa886e67d2d85dfbfcd3c5a3cddd7f4b5365138e545d73e3d'
-    )  # noqa: E501
+        "2.0.1.0",
+        sha256="db50f561f54840faa886e67d2d85dfbfcd3c5a3cddd7f4b5365138e545d73e3d",
+    )
 
     version(
-        '2.0.2.0',
-        sha256='0e5b0b3d551361597d0cf7044d096a5456c61abcfdaecb36775ea1c07f97e57c'
-    )  # noqa: E501
+        "2.0.2.0",
+        sha256="0e5b0b3d551361597d0cf7044d096a5456c61abcfdaecb36775ea1c07f97e57c",
+    )
 
-    depends_on("cmake@3.12:", type=("build", ))
-    depends_on("arccon@1.2:", type=("build", ))
+    depends_on("cmake@3.12:", type=("build",))
+    depends_on("arccon@1.2:", type=("build",))
     depends_on("arcdependencies", type=("build"))
     depends_on("dotnet-core-sdk@3.1:", type=("build", "link", "run"))
