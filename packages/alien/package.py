@@ -92,7 +92,8 @@ class Alien(CMakePackage):
 
     depends_on("arccore", type=("build", "link"))
     depends_on("googletest", type=("build"))
-    depends_on("boost")
+    depends_on("boost +program_options")
+    # depends_on("boost +context", when="+sycl")
     depends_on("blas")
     depends_on("mpi")
     depends_on("libxml2", when="+xml")
