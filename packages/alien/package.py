@@ -92,6 +92,10 @@ class Alien(CMakePackage):
         when="@1.1.4:",
     )
 
+    variant(
+        "hypre_device", description="Force GPU offloading with hypre", default=False
+    )
+
     depends_on("hypre +mpi", when="+hypre")
     depends_on("petsc +mpi", when="+petsc")
 
@@ -120,6 +124,8 @@ class Alien(CMakePackage):
     depends_on("libxml2", when="+xml")
     depends_on("hdf5", when="+hdf5")
 
+    conflicts("~hypre", "+hypre_device")
+
     def cmake_args(self):
         options = [
             # Do not use any default options for Alien
@@ -129,6 +135,7 @@ class Alien(CMakePackage):
             self.define_from_variant("ALIEN_COMPONENT_MoveSemantic", "move"),
             self.define_from_variant("ALIEN_COMPONENT_RefSemantic", "ref"),
             self.define_from_variant("ALIEN_PLUGIN_HYPRE", "hypre"),
+            self.define_from_variant("ALIEN_HYPRE_DEVICE", "hypre_device"),
             self.define_from_variant("ALIEN_PLUGIN_PETSC", "petsc"),
             self.define("BUILD_SHARED_LIBS", True),
         ]
