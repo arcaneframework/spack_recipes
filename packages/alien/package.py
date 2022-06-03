@@ -75,6 +75,17 @@ class Alien(CMakePackage):
         default="none",
         values=ginkgo_backends + ("none",),
         multi=False,
+        when="@1.1.3:",
+    )
+
+    trilinos_backends = ("omp", "ref", "cuda", "hip")
+    variant(
+        "trilinos",
+        description="Enable Trilinos specific backend",
+        default="none",
+        values=trilinos_backends + ("none",),
+        multi=False,
+        when="@1.1.4:",
     )
 
     depends_on("hypre +mpi", when="+hypre")
@@ -84,6 +95,12 @@ class Alien(CMakePackage):
     depends_on("ginkgo +openmp", when="ginkgo=omp")
     depends_on("ginkgo +rocm", when="ginkgo=hip")
     depends_on("ginkgo", when="ginkgo=ref")
+
+    trilinos_variants = "+tpetra +kokkos +belos +ifpack2"
+    depends_on("trilinos {}".format(trilinos_variants), when="trilinos=ref")
+    depends_on("trilinos {} +cuda".format(trilinos_variants), when="trilinos=cuda")
+    depends_on("trilinos {} +rocm".format(trilinos_variants), when="trilinos=hip")
+    depends_on("trilinos {} +openmp".format(trilinos_variants), when="trilinos=omp")
 
     depends_on("cmake", type="build")
 
@@ -111,14 +128,22 @@ class Alien(CMakePackage):
             self.define_from_variant("ALIEN_PLUGIN_PETSC", "petsc"),
             self.define("BUILD_SHARED_LIBS", True),
         ]
-        if "ginkgo=none" in self.spec:
-            options.append(self.define("ALIEN_PLUGIN_GINKGO", False))
-        else:
-            options.append(self.define("ALIEN_PLUGIN_GINKGO", True))
-            for b in self.ginkgo_backends:
-                if "ginkgo={}".format(b) in self.spec:
-                    options.append(
-                        self.define("ALIEN_PLUGIN_GINKGO_{}".format(b.upper()), True)
-                    )
+
+        def multivariant(plugin_name, active_options):
+            alien_plugin_prefix = "ALIEN_PLUGIN_{}".format(plugin_name.upper())
+            if "{}=none".format(plugin_name) in self.spec:
+                options.append(self.define(alien_plugin_prefix, False))
+            else:
+                options.append(self.define(alien_plugin_prefix, True))
+                for b in active_options:
+                    if "{}={}".format(plugin_name, b) in self.spec:
+                        options.append(
+                            self.define(
+                                "{}_{}".format(alien_plugin_prefix, b.upper()), True
+                            )
+                        )
+
+        multivariant("ginkgo", self.ginkgo_backends)
+        multivariant("trilinos", self.trilinos_backends)
 
         return options
