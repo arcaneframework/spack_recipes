@@ -21,7 +21,7 @@
 # You should have received a copy of the GNU Lesser General Public
 # License along with this program; if not, write to the Free Software
 # Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA 02111-1307 USA
-##############################################################################
+#############################################################################
 from spack import *
 
 
@@ -68,6 +68,10 @@ class Arccore(CMakePackage):
     version(
         "2.0.9.0",
         sha256="9a0918c9c4c448f56498b45d7369499baa9073dec32f472d9c744626fb847afb",
+    )
+    version(
+        "2.0.11.0",
+        sha256="bd8514dc9490b91fe8b1662edefb6ad847a01e096c5c6a03e02e45b9a1194e99",
     )
 
     variant("mpi", default=True, description="Use MPI")
