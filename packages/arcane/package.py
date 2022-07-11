@@ -58,6 +58,11 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
         sha256="bfd1cf924e83265981aafd40e31a27753ce5269bccf392289d046c5282247d29",
     )
 
+    version(
+        "3.6.13.0",
+        sha256="70004aa762f6ae0c3f7ae95bd4b076eb5011007410611641fdf1489b7b896598",
+    )
+
     variant("valgrind", default=False, description="run tests with valgrind")
     variant("mpi", default=True, description="Use MPI")
     variant("hdf5", default=False, description="HDF5 IO")
@@ -88,11 +93,12 @@ class Arcane(CMakePackage, CudaPackage, ROCmPackage):
     depends_on("cmake@3.18:", type="build")
 
     depends_on("arccon@1.1:", type=("build"), when="@:3.0.4")
-    depends_on("arccon@1.2:", type=("build"), when="@3.0.5.0")
+    depends_on("arccon@1.2:", type=("build"), when="@3.0.5:")
     depends_on("axlstar@2.0:", type=("build"))
     depends_on("arccore@2.0:", type=("build", "link", "run"), when="@:3.0.4")
     depends_on("arccore@2.0.3", type=("build", "link", "run"), when="@3.0.5:3.1")
-    depends_on("arccore@2.0.6:", type=("build", "link", "run"), when="@3.2:")
+    depends_on("arccore@2.0.6:", type=("build", "link", "run"), when="@3.2:3.5")
+    depends_on("arccore@2.0.11:", type=("build", "link", "run"), when="@3.6:")
     depends_on(
         "arccore build_mode=Debug",
         type=("build", "link", "run"),
