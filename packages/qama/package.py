@@ -25,8 +25,8 @@
 from spack import *
 
 
-class ArcaneQuicksilver(CMakePackage):
-    """Quicksilver bench for Arcane."""
+class Qama(CMakePackage):
+    """Quicksilver bench for Arcane: QAMA"""
 
     homepage = "https://arcaneframework.github.io/"
     git = "https://github.com/arcaneframework/arcane-benchs.git"
