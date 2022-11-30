@@ -32,5 +32,6 @@ class Mahyco(CMakePackage):
     git = "https://github.com/cea-hpc/MaHyCo.git"
 
     version("master", branch="master")
+    version("develop", branch="Mahyco_gpu2")
 
-    depends_on("arcane")
+    depends_on("arcane@3.7")
