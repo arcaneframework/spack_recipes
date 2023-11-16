@@ -63,6 +63,10 @@ class Alien(CMakePackage):
         "1.1.4",
         sha256="6104f3c24ee19084a67391beb1ea973a2a11e9707f17339e19266087e87128ca",
     )
+    version(
+        "1.1.5",
+        sha256="ad5cd05927b8d1514fbbc381181f10944484eabf5d26e6019ba75484824c8a38",
+    )
 
     variant("hdf5", description="hdf5 export for Alien", default=False)
     variant("xml", description="xml export for Alien", default=True)
