@@ -23,7 +23,7 @@ jobs:
         uses: actions/checkout@v4
         with:
           repository: spack/spack
-          ref: v0.23.1
+          ref: releases/v1.0
           path: spack
 
       - name: Print directory infos
@@ -31,11 +31,47 @@ jobs:
         run: |
           ls -lart '${{ github.workspace }}'
 
-      - name: Check And build package Arcane
+      - name: Add ArcaneFramework repo
         shell: 'bash'
         run: |
           . spack/share/spack/setup-env.sh
           spack repo add .
+
+      - name: Print ArcaneFramework spec
+        shell: 'bash'
+        run: |
+          . spack/share/spack/setup-env.sh
+          spack info arcane-framework
+          spack spec arcane-framework
+          spack info arcane
+
+      - name: Print Arcane spec
+        shell: 'bash'
+        run: |
+          . spack/share/spack/setup-env.sh
           spack info arcane
           spack spec arcane
-          spack install arcane build_type=Debug
+
+      - name: Build package Arccore
+        shell: 'bash'
+        run: |
+          . spack/share/spack/setup-env.sh
+          spack install arcane-framework build_type=Debug ~arcane
+
+      - name: Build package Arcane
+        shell: 'bash'
+        run: |
+          . spack/share/spack/setup-env.sh
+          spack install arcane-framework build_type=Debug +arcane
+
+      - name: Build package Alien
+        shell: 'bash'
+        run: |
+          . spack/share/spack/setup-env.sh
+          spack install arcane-framework build_type=Debug ~arcane +alien
+
+      - name: Build package Arcane and Alien
+        shell: 'bash'
+        run: |
+          . spack/share/spack/setup-env.sh
+          spack install arcane-framework build_type=Debug +arcane +alien
