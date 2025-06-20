@@ -15,11 +15,11 @@ class ArcaneFramework(CMakePackage, CudaPackage, ROCmPackage):
     variant(
         "build_mode",
         default="Release",
-        description="Arccore build type",
+        description="Arccore build mode",
         values=("Debug", "Check", "Release"),
     )
 
-    variant("arcane", default=True, description="Compile the component 'Arcane'")
+    variant("arcane", default=False, description="Compile the component 'Arcane'")
     variant("alien", default=False, description="Compile the component 'Alien'")
     variant("mpi", default=True, description="Use MPI")
 
@@ -146,7 +146,6 @@ class ArcaneFramework(CMakePackage, CudaPackage, ROCmPackage):
             self.define("BUILD_SHARED_LIBS", True),
             self.define("ARCCORE_CXX_STANDARD", "20"),
             self.define("ARCANE_BUILD_WITH_SPACK", True),
-            self.define("ARCANE_NO_DEFAULT_PACKAGE", True),
             self.define("ARCANE_NO_DEFAULT_PACKAGE", True),
             self.define("ARCANEFRAMEWORK_BUILD_COMPONENTS", "Arcane"),
             self.define("ARCANE_DISABLE_DEPRECATED_WARNINGS", "TRUE"),
