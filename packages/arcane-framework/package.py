@@ -44,7 +44,7 @@ class ArcaneFramework(CMakePackage, CudaPackage, ROCmPackage):
     variant("udunits", default=False, when="+arcane", description="Udunits")
     variant("papi", default=False, when="+arcane", description="PAPI counters")
 
-    variant("build_tests", default=True, description="Compile tests")
+    variant("build_tests", default=False, description="Compile tests")
 
     variant("cuda_clang", default=False, description="Use clang (instead of nvcc) to compile CUDA code")
 
