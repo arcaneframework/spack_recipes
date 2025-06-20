@@ -43,7 +43,6 @@ jobs:
           . spack/share/spack/setup-env.sh
           spack info arcane-framework
           spack spec arcane-framework
-          spack info arcane
 
       - name: Print Arcane spec
         shell: 'bash'
@@ -52,26 +51,32 @@ jobs:
           spack info arcane
           spack spec arcane
 
+      - name: Build dependencies
+        shell: 'bash'
+        run: |
+          . spack/share/spack/setup-env.sh
+          spack install --only dependencies arcane-framework build_type=Debug +arcane +alien
+
       - name: Build package Arccore
         shell: 'bash'
         run: |
           . spack/share/spack/setup-env.sh
-          spack install arcane-framework build_type=Debug ~arcane
+          spack -v install arcane-framework build_type=Debug ~arcane
 
       - name: Build package Arcane
         shell: 'bash'
         run: |
           . spack/share/spack/setup-env.sh
-          spack install arcane-framework build_type=Debug +arcane
+          spack -v install arcane-framework build_type=Debug +arcane
 
       - name: Build package Alien
         shell: 'bash'
         run: |
           . spack/share/spack/setup-env.sh
-          spack install arcane-framework build_type=Debug ~arcane +alien
+          spack -v install arcane-framework build_type=Debug ~arcane +alien
 
       - name: Build package Arcane and Alien
         shell: 'bash'
         run: |
           . spack/share/spack/setup-env.sh
-          spack install arcane-framework build_type=Debug +arcane +alien
+          spack -v install arcane-framework build_type=Debug +arcane +alien
