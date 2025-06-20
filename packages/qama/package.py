@@ -8,6 +8,7 @@ class Qama(CMakePackage):
 
     version("main", branch="main")
 
-    depends_on("arcane")
+    depends_on("cxx", type="build")
+    depends_on("arcane-framework +arcane")
 
     root_cmakelists_dir = "qama"
