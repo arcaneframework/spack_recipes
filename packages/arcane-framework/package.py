@@ -8,7 +8,7 @@ class ArcaneFramework(CMakePackage, CudaPackage, ROCmPackage):
     url = "https://github.com/arcaneframework/framework/releases/download/arcane-v3.11.15.0/framework-3.11.15.0.src.tar.gz"
     git = "https://github.com/arcaneframework/framework.git"
 
-    version("3.16.6.0", commit="637f8cae62c307a7d47c6b67635746957679c62d", submodules = True)
+    version("3.16.6.0", commit="94ae83e985c0b1db993bbce679a6cc73f587cb16", submodules = True)
 
     generator("ninja")
 
@@ -26,13 +26,15 @@ class ArcaneFramework(CMakePackage, CudaPackage, ROCmPackage):
     variant("hdf5", default=True, description="HDF5 IO")
     variant("tbb", default=True, description="Use Intel TBB")
     variant("dotnet_wrapper", default=True, when="+arcane", description=".Net wrappers")
-    variant("lz4", default=True, when="+arcane", description="Use lz4 compression")
 
     variant("valgrind", default=False, description="Add support for running tests with valgrind")
     variant("med", default=False, when="+arcane", description="Salome MED support")
     variant("otf2", default=False, when="+arcane", description="OTF2 library support")
     variant("mkl", default=False, description="Use Intel MKL")
-    variant("bzip2", default=False, when="+arcane", description="Use bzip2 compression")
+
+    variant("lz4", default=True, when="+arcane", description="Add support for lz4 compression")
+    variant("bzip2", default=False, when="+arcane", description="Add support for bzip2 compression")
+    variant("zstd", default=False, when="+arcane", description="Add support for zstd compression")
 
     variant("parmetis", default=True, when="+arcane", description="Use ParMetis partitioner")
     variant("scotch", default=False, when="+arcane", description="Use (PT-)Scotch partitioner")
@@ -114,6 +116,7 @@ class ArcaneFramework(CMakePackage, CudaPackage, ROCmPackage):
             "mpi": "MPI",
             "hdf5": "HDF5",
             "bzip2": "BZip2",
+            "zstd": "zstd",
             "lz4": "LZ4",
             "med": "MEDFile",
             "tbb": "TBB",
